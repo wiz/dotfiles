@@ -74,6 +74,9 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# don't confirm history expansion (like !$ or !!)
+unsetopt HIST_VERIFY
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
