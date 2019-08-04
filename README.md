@@ -68,3 +68,13 @@ gvm use go1.4
 export GOROOT_BOOTSTRAP=$GOROOT
 gvm install go1.12
 ```
+
+### install oh-my-zsh
+```
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+```
+
+### install oh-my-zsh theme powerlevel9k
+```
+git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+```
