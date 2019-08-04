@@ -11,23 +11,23 @@
 
 For example, starting with a fresh Ubuntu 18 LTS lite install
 
-# update latest stuff
+### update latest stuff
 ```
 apt-get update
 apt-get upgrade
 ```
 
-# install vm tools
+### install vm tools
 ```
 apt-get install open-vm-tools open-vm-tools-desktop
 ```
 
-# install basic stuff
+### install basic stuff
 ```
 apt-get install zsh vim screen git gcc terminator awesome awesome-extra compton feh mutt gnupg2 pcscd scdaemon pinentry-gtk2
 ```
 
-# install dotfiles
+### install dotfiles
 ```
 cd
 git clone --recursive https://github.com/wiz/dotfiles ~/.dotfiles
@@ -42,5 +42,29 @@ ln -s ~/.dotfiles/.config
 sudo apt-get install python python3 python-pip python3-pip
 sudo add-apt-repository ppa:neovim-ppa/stable
 sudo apt-get install -y neovim
+pip3 install neovim
+pip3 install pynvim
 ```
 
+### install vim-plug
+```
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vi
+:PlugInstall
+```
+
+### install nvm
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | zsh
+nvm install node
+```
+
+### install gvm
+```
+sudo apt-get install curl git mercurial make binutils bison gcc build-essential
+zsh < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+gvm install go1.4 -B
+gvm use go1.4
+export GOROOT_BOOTSTRAP=$GOROOT
+gvm install go1.12
+```
