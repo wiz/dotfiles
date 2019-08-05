@@ -89,7 +89,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'xolox/vim-misc'
 
 	" Tools
-	Plug 'scrooloose/nerdcommenter'
+	" Plug 'scrooloose/nerdcommenter'
 	Plug 'scrooloose/nerdtree'
 	Plug 'valloric/listtoggle'
 	Plug 'majutsushi/tagbar'
@@ -682,12 +682,34 @@ set splitbelow
 set splitright
 set fillchars+=stlnc:\/,vert:│,fold:―,diff:―
 
-" Split windows
-map <C-w>- :split<CR>
-map <C-w>. :vsplit<CR>
-map <C-w>j :close<CR>
-map <C-w>x :q!<CR>
-map <C-w>, <C-w>=
+" Window manipulations
+nmap s [Window]
+nnoremap [Window] <Nop>
+
+"{{{
+nnoremap [Window]j <C-W>j
+nnoremap [Window]k <C-W>k
+nnoremap [Window]h <C-W>h
+nnoremap [Window]l <C-W>l
+
+nnoremap [Window]J <C-W>J
+nnoremap [Window]K <C-W>K
+nnoremap [Window]H <C-W>H
+nnoremap [Window]L <C-W>L
+
+nnoremap [Window]v <C-w>v
+" Centering cursor after splitting window
+nnoremap [Window]s <C-w>szz
+
+nnoremap [Window]q :<C-u>quit<CR>
+nnoremap [Window]d :<C-u>Bdelete<CR>
+
+nnoremap [Window]= <C-w>=
+nnoremap [Window], <C-w><
+nnoremap [Window]. <C-w>>
+nnoremap [Window]] <C-w>+
+nnoremap [Window][ <C-w>-
+"}}}
 
 " Resize windows
 if bufwinnr(1)
@@ -803,7 +825,7 @@ let g:f3msg = 'Toggle line numbers.'
 nnoremap <silent> <F3> :set number!<CR>:echo g:f3msg<CR>
 
 " Set relative line numbers
-set relativenumber
+" set relativenumber
 
 let g:f4msg = 'Toggle relative line numbers.'
 nnoremap <silent> <F4> :set norelativenumber!<CR>:echo g:f4msg<CR>
