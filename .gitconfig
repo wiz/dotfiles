@@ -1,6 +1,11 @@
 [user]
 	name = wiz
 	email = j@wiz.biz
+	signingkey = 913C5FF1F579B66CA10378DBA394E332255A6173
+[tag]
+	forceSignAnnotated = true
+[commit]
+	gpgsign = true
 
 [alias]
   ci = commit
