@@ -103,6 +103,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'Shougo/neosnippet-snippets'
 	Plug 'Shougo/context_filetype.vim'
 	Plug 'ervandew/supertab'
+	Plug 'artur-shaik/vim-javacomplete2'
 
 	" C/C++ support
 	Plug 'Rip-Rip/clang_complete'
