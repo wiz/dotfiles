@@ -114,15 +114,17 @@ alias s='git status'
 alias a='git add'
 
 # gpg-agent
-export SSH_AUTH_SOCK=`gpgconf --list-dirs agent-ssh-socket`
+if [ -z "${SSH_AUTH_SOCK}" ];then
+	export SSH_AUTH_SOCK=`gpgconf --list-dirs agent-ssh-socket`
+fi
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 
 # gvm
 export GVM_DIR="$HOME/.gvm"
-[ -s "$GVM_DIR/.gvm/scripts/gvm" ] && \. "$GVM_DIR/.gvm/scripts/gvm"
+[ -s "$GVM_DIR/scripts/gvm" ] && source "$GVM_DIR/scripts/gvm"
 gvm use go1.12
 
