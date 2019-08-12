@@ -79,10 +79,13 @@ gvm use go1.12
 ### install neovim with python
 ```
 sudo apt-get install -y python python3 python-pip python3-pip
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
 sudo add-apt-repository ppa:neovim-ppa/stable
 sudo apt-get install -y neovim
-pip3 install neovim
-pip3 install pynvim
+pip2 install neovim --user
+pip2 install pynvim --user
+pip3 install neovim --user
+pip3 install pynvim --user
 ```
 
 ### install vim-plug
