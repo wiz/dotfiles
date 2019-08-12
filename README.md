@@ -17,14 +17,22 @@ apt-get update
 apt-get upgrade
 ```
 
-### install vm tools
+### install vm tools (optional)
 ```
-apt-get install -y open-vm-tools open-vm-tools-desktop
+sudo apt-get install -y open-vm-tools open-vm-tools-desktop
+sudo apt-get install -y terminator awesome awesome-extra compton feh mutt gnupg2 pcscd scdaemon pinentry-gtk2
 ```
 
 ### install basic stuff
 ```
-apt-get install -y zsh vim screen git gcc terminator awesome awesome-extra compton feh mutt gnupg2 pcscd scdaemon pinentry-gtk2
+sudo apt-get install -y zsh vim screen curl git mercurial make binutils bison gcc build-essential python python3 python-pip python3-pip
+sudo add-apt-repository ppa:neovim-ppa/stable
+sudo apt-get install -y neovim
+```
+
+### set python3 as default
+```
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
 ```
 
 ### install dotfiles
@@ -65,7 +73,6 @@ nvm install node
 
 ### install gvm
 ```
-sudo apt-get install -y curl git mercurial make binutils bison gcc build-essential
 zsh < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 (cd ~/.dotfiles && git checkout .zshrc)
 source .zshrc
@@ -76,12 +83,8 @@ gvm install go1.12
 gvm use go1.12
 ```
 
-### install neovim with python
+### install neovim and pynvim
 ```
-sudo apt-get install -y python python3 python-pip python3-pip
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
-sudo add-apt-repository ppa:neovim-ppa/stable
-sudo apt-get install -y neovim
 pip2 install neovim --user
 pip2 install pynvim --user
 pip3 install neovim --user
@@ -93,21 +96,22 @@ pip3 install pynvim --user
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
-### re-login
+### open a fresh new shell, check everything
 ```
-exit
-```
-
-### in a fresh new shell, check everything
-```
+zsh
 which node
 which npm
 which go
 which nvim
 ```
 
-### if all good, proceed to install plugins 
-nvim
-:PlugInstall
+### open nvim and check everything
 ```
-
+nvim
+:CheckHealth
+```
+### if all good, proceed to install plugins 
+```
+:PlugInstall
+:UpgradeRemotePlugins
+```
