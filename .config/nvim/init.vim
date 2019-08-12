@@ -534,7 +534,7 @@ set noerrorbells
 set novisualbell
 
 " Mouse
-set mouse=a
+" set mouse=a
 
 " Highlight cursor line and cursor column
 set cursorline
