@@ -1,0 +1,136 @@
+# basic
+set from = "j@wiz.biz"
+set realname = "J. Maurice"
+
+# gmail
+set imap_user = "j@wiz.biz"
+set smtp_url = "smtp://j@wiz.biz@smtp.gmail.com:587/"
+
+# always TLS
+set ssl_starttls=yes
+set ssl_force_tls=yes
+# SSL hardening
+set ssl_use_sslv3=no
+set ssl_use_tlsv1=no
+set ssl_use_tlsv1_1=no
+set ssl_use_tlsv1_2=yes
+set ssl_verify_dates=yes
+set ssl_verify_host=yes
+
+# dont save passwords in git
+#set imap_pass = ""
+#set smtp_pass = ""
+source "gpg2 -d ~/.muttlogin |"
+
+# IMAP
+set folder = "imaps://imap.gmail.com:993"
+set spoolfile = "+INBOX"
+set postponed ="+[Gmail]/Drafts"
+set mbox="imaps://imap.gmail.com/[Gmail]/All Mail"
+set trash = "+[Gmail]/Trash"
+
+# LOCAL FOLDERS FOR CACHED HEADERS AND CERTIFICATES
+set header_cache =~/.mutt/cache/headers
+set message_cachedir =~/.mutt/cache/bodies
+#unset ssl_usesystemcerts
+set certificate_file =~/.mutt/certificates
+
+# SECURING
+set move = no  #Stop asking to "move read messages to mbox"!
+set imap_keepalive = 900
+
+bind editor <space> noop
+macro index gi "<change-folder>=INBOX<enter>" "Go to inbox"
+macro index ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail"
+macro index gs "<change-folder>=[Gmail]/Sent Mail<enter>" "Go to Sent Mail"
+macro index gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to drafts"
+
+# Use GPGME
+set crypt_use_gpgme = yes
+
+# Sign replies to signed email
+set crypt_replysign = yes
+
+# Encrypt replies to encrypted email
+set crypt_replyencrypt = yes
+
+# Encrypt and sign replies to encrypted and signed email
+set crypt_replysignencrypted = yes
+
+# Attempt to verify email signatures automatically
+set crypt_verify_sig = yes
+
+# autosign all mail using my key
+set pgp_sign_as = 0x0FE40A5B
+set crypt_autosign = yes
+set crypt_autoencrypt = yes
+# add header to my key
+my_hdr X-PGP-Key: https://wiz.biz/pgp/jmaurice.asc
+
+# forward with attachments
+set mime_forward = no
+
+# main options
+set mail_check = 0
+set envelope_from
+unset move           # gmail does that
+unset mark_old       # read/new is good enough for me
+
+# sort/threading
+set sort     = threads
+set sort_aux = reverse-last-date-received
+set sort_re
+set sort_browser = date
+set strict_threads = yes
+set collapse_unread = yes
+bind index - collapse-thread
+bind index _ collapse-all
+#folder-hook . "exec collapse-all"
+
+# look and feel
+set pager_index_lines = 8
+set pager_context     = 5
+set pager_stop
+set menu_scroll
+set smart_wrap
+set tilde
+unset markers
+
+# composing 
+set fcc_attach
+#unset mime_forward
+set forward_format = "Fwd: %s"
+set include
+set forward_quote
+
+#ignore *                               # first, ignore all headers
+#unignore from: to: cc: date: subject:  # then, show only these
+#hdr_order from: to: cc: date: subject: # and in this order
+
+# colors
+
+color hdrdefault cyan default
+color attachment yellow default
+
+color header brightyellow default "From: "
+color header brightyellow default "Subject: "
+color header brightyellow default "Date: "
+
+color quoted green default
+color quoted1 cyan default
+color quoted2 green default
+color quoted3 cyan default
+
+color error     red             default         # error messages
+color message   white           default         # message  informational messages
+color indicator white           red             # indicator for the "current message"
+color status    white           blue            # status lines in the folder index sed for the mini-help line
+color tree      red             default         # the "tree" display of threads within the folder index
+color search    white           blue            # search matches found with search within the internal pager
+color markers   red             default         # The markers indicate a wrapped line hen showing messages with looong lines
+
+color normal     white default
+color index     yellow default  '~O'
+color index     yellow default  '~N'
+color index     brightred       default '~F'    # Flagged Messages are important!
+color index     blue default    '~D'            # Deleted Mails - use dark color as these are already "dealt with"
