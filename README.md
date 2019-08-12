@@ -56,6 +56,7 @@ source .zshrc
 
 ### install nvm
 ```
+unset NVM_DIR
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | zsh
 (cd ~/.dotfiles && git checkout .zshrc)
 source .zshrc
