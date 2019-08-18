@@ -115,3 +115,10 @@ nvim
 :PlugInstall
 :UpgradeRemotePlugins
 ```
+
+### ruby
+```
+apt-get install ruby ruby-dev
+gem install bundler
+gem update --system
+```
