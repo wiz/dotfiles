@@ -1,6 +1,6 @@
 # basic
 set from = "j@wiz.biz"
-set realname = "J. Maurice"
+set realname = "wiz"
 
 # gmail
 set imap_user = "j@wiz.biz"
@@ -61,7 +61,7 @@ set crypt_replysignencrypted = yes
 set crypt_verify_sig = yes
 
 # autosign all mail using my key
-set pgp_sign_as = 0x0FE40A5B
+set pgp_sign_as = 0xA394E332255A6173
 set crypt_autosign = yes
 set crypt_autoencrypt = yes
 # add header to my key
