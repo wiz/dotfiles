@@ -221,8 +221,8 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gg :call <SID>GrepWrapper('Glog', '-i -S', '--')<CR>
 
 " GV settings
-nnoremap <silent> <C-z> :call <SID>PreventGV()<CR>
-vnoremap <silent> <C-z> :call <SID>PreventGV()<CR>
+" nnoremap <silent> <C-z> :call <SID>PreventGV()<CR>
+" vnoremap <silent> <C-z> :call <SID>PreventGV()<CR>
 
 " --- Sessions ---
 " Vim-session settings
