@@ -97,6 +97,9 @@ export LC_ADDRESS=en_US.UTF-8
 # Preferred editor for local and remote sessions
 export EDITOR='nvim'
 
+# retina plz
+export GDK_SCALE=2
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
