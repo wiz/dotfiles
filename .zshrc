@@ -75,7 +75,9 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # don't confirm history expansion (like !$ or !!)
-unsetopt HIST_VERIFY
+unsetopt hist_verify
+# don't share history between sessions
+unsetopt share_history
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
