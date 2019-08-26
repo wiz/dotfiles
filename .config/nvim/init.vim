@@ -12,7 +12,8 @@ endif
 
 "{{{ Load plugins
 call plug#begin('~/.vim/plugged')
-Plug 'jlanzarotta/bufexplorer'
+" Plug 'jlanzarotta/bufexplorer'
+Plug 'Shougo/Unite.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'artur-shaik/vim-javacomplete2'
@@ -112,6 +113,67 @@ nnoremap [Window][ <C-w>-
 cmap w!! w !sudo tee % >/dev/null
 "}}}
 
+"{{{ Unite
+" Stop configuration when we can't use unite.
+if v:version < 702 || $SUDO_USER != ''
+  finish
+endif
+
+let g:unite_source_file_mru_limit = 200
+let g:unite_source_file_mru_filename_format = ""
+let g:unite_source_file_mru_time_format = ""
+
+" Narrow vertial window, default width is 90.
+let g:unite_winwidth = 30
+
+function! s:UniteSettings()
+  nmap <buffer> <ESC> <Plug>(unite_exit)
+  imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+  imap <buffer> jj <Plug>(unite_insert_leave)
+"  nmap <buffer> <Tab> <Nop>
+"  imap <buffer> <Tab> <Nop>
+endfunction
+
+augroup MyUnite
+  autocmd!
+  autocmd FileType unite call s:UniteSettings()
+augroup END
+
+nmap f [Unite]
+nnoremap [Unite] <Nop>
+
+let s:file_rec_source = executable('ls') && unite#util#has_vimproc() ? "file_rec/async" : "file_rec"
+
+execute printf('nnoremap <silent> [Unite]f :<C-u>Unite -buffer-name=files -start-insert buffer_tab file_mru file %s<CR>', s:file_rec_source)
+nnoremap <silent> [Unite]k :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file<CR>
+nnoremap <silent> [Unite]l :<C-u>Unite -start-insert -buffer-name=files file_mru<CR>
+nnoremap <silent> [Unite]p :<C-u>Unite poslist<CR>
+
+function! s:ExecuteCommandOnCR(command)
+  if &buftype == ''
+    execute a:command
+  else
+    call feedkeys("\r", 'n')
+  endif
+endfunction
+
+nnoremap <silent> <CR> :<C-u>call <SID>ExecuteCommandOnCR('Unite file buffer')<CR>
+
+" unite-grep
+let g:unite_source_grep_max_candidates = 200
+let g:unite_source_grep_default_opts = "-HnEi"
+  \ . " --exclude='*.svn*'"
+  \ . " --exclude='*.log*'"
+  \ . " --exclude='*tmp*'"
+  \ . " --exclude-dir='**/tmp'"
+  \ . " --exclude-dir='CVS'"
+  \ . " --exclude-dir='.svn'"
+  \ . " --exclude-dir='.git'"
+
+nnoremap <silent> <expr> [Unite]g printf(':<C-u>Unite grep:%s:-R:%s -no-quit<CR>', expand(getcwd()), expand("<cword>"))
+
+"}}}
+
 "{{{ NERDTree options
 let NERDTreeAutoCenter = 1
 let NERDTreeCaseSensitiveSort = 1
@@ -126,8 +188,93 @@ let NERDTreeIgnore+=['.*\.pyc$']
 let NERDTreeIgnore+=['.*\.class$']
 "}}}
 
-"{{{ Bufexplorer options
+"{{{ Buffer manipulations
+" Bufexplorer options
 let g:bufExplorerSplitBelow=1
+nmap [Space] [Buffer]
+xmap [Space] [Buffer]
+"{{{
+function! s:NextNormalBuffer(loop) "{{{
+  let buffer_num = bufnr('%')
+  let last_buffer_num = bufnr('$')
+
+  let next_buffer_num = buffer_num
+  while 1
+    if next_buffer_num == last_buffer_num
+      if a:loop
+        let next_buffer_num = 1
+      else
+        break
+      endif
+    else
+      let next_buffer_num = next_buffer_num + 1
+    endif
+    if next_buffer_num == buffer_num
+      break
+    endif
+    if ! buflisted(next_buffer_num)
+      continue
+    endif
+    if getbufvar(next_buffer_num, '&buftype') == ""
+      return next_buffer_num
+      break
+    endif
+  endwhile
+  return 0
+endfunction "}}}
+
+function! s:OpenNextNormalBuffer(loop) "{{{
+  if &buftype == ""
+    let buffer_num = s:NextNormalBuffer(a:loop)
+    if buffer_num
+      execute "buffer" buffer_num
+    endif
+  endif
+endfunction "}}}
+
+function! s:PrevNormalBuffer(loop) "{{{
+  let buffer_num = bufnr('%')
+  let last_buffer_num = bufnr('$')
+
+  let prev_buffer_num = buffer_num
+  while 1
+    if prev_buffer_num == 1
+      if a:loop
+        let prev_buffer_num = last_buffer_num
+      else
+        break
+      endif
+    else
+      let prev_buffer_num = prev_buffer_num - 1
+    endif
+    if prev_buffer_num == buffer_num
+      break
+    endif
+    if ! buflisted(prev_buffer_num)
+      continue
+    endif
+    if getbufvar(prev_buffer_num, '&buftype') == ""
+      return prev_buffer_num
+      break
+    endif
+  endwhile
+  return 0
+endfunction "}}}
+
+function! s:OpenPrevNormalBuffer(loop) "{{{
+  if &buftype == ""
+    let buffer_num = s:PrevNormalBuffer(a:loop)
+    if buffer_num
+      execute "buffer" buffer_num
+    endif
+  endif
+endfunction "}}}
+
+noremap <silent> [Buffer]P :<C-u>call <SID>OpenPrevNormalBuffer(0)<CR>
+noremap <silent> [Buffer]p :<C-u>call <SID>OpenPrevNormalBuffer(1)<CR>
+noremap <silent> [Buffer]N :<C-u>call <SID>OpenNextNormalBuffer(0)<CR>
+noremap <silent> [Buffer]n :<C-u>call <SID>OpenNextNormalBuffer(1)<CR>
+"}}}
 " }}}
 
 "{{{ Airline
