@@ -157,7 +157,7 @@ function! s:ExecuteCommandOnCR(command)
   endif
 endfunction
 
-nnoremap <silent> <CR> :<C-u>call <SID>ExecuteCommandOnCR('Unite file buffer')<CR>
+nnoremap <silent> <CR> :<C-u>call <SID>ExecuteCommandOnCR('Unite buffer')<CR>
 
 " unite-grep
 let g:unite_source_grep_max_candidates = 200
