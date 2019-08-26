@@ -118,6 +118,11 @@ alias dc='git diff --cached'
 alias s='git status'
 alias a='git add'
 
+# vim with tmux
+function vim_tmux() { tmux new -d "vim $*" \; attach; }
+alias vim='vim_tmux'
+alias vi='vim_tmux'
+
 # gpg-agent
 if [ -z "${SSH_AUTH_SOCK}" ];then
 	export SSH_AUTH_SOCK=`gpgconf --list-dirs agent-ssh-socket`
