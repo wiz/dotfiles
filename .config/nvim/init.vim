@@ -366,7 +366,7 @@ autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
 let g:deoplete#omni#functions    = {}
-call deoplete#custom#option('auto_complete_delay', 0)
+call deoplete#custom#option('auto_complete_delay', 250)
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
@@ -759,8 +759,8 @@ nnoremap <silent> <M-u> :wincmd P<CR>5<C-y>:wincmd p<CR>
 set autoindent
 set smartindent
 
-" Use tabs, no spaces
-set noexpandtab
+" Use soft tabs, not hard tabs
+set expandtab
 
 " Be smart when using tabs
 set smarttab
