@@ -78,6 +78,9 @@ source $ZSH/oh-my-zsh.sh
 unsetopt hist_verify
 # don't share history between sessions
 unsetopt share_history
+# don't use up/down arrow key history search
+bindkey "${terminfo[kcuu1]}" up-history
+bindkey "${terminfo[kcud1]}" down-history
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -113,15 +116,15 @@ alias gitk='gitk --all'
 alias stelnet='openssl s_client -CAfile /etc/ssl/certs/ca-certificates.crt -connect'
 
 # git
-alias d='git diff'
+alias d='git --no-pager diff'
 alias dc='git diff --cached'
 alias s='git status'
 alias a='git add'
 
 # vim with tmux
 function vim_tmux() { tmux new -d "vim $*" \; attach; }
-alias vim='vim_tmux'
-alias vi='vim_tmux'
+#alias vim='vim_tmux'
+#alias vi='vim_tmux'
 
 # gpg-agent
 if [ -z "${SSH_AUTH_SOCK}" ];then
@@ -138,4 +141,3 @@ export NVM_DIR="$HOME/.nvm"
 export GVM_DIR="$HOME/.gvm"
 [ -s "$GVM_DIR/scripts/gvm" ] && source "$GVM_DIR/scripts/gvm"
 gvm use go1.12
-

@@ -47,3 +47,5 @@
   date = white default
   title-focus = white black
   title-blur = black white
+[pager]
+    diff = true
