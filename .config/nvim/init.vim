@@ -14,6 +14,7 @@ endif
 call plug#begin('~/.vim/plugged')
 " Plug 'jlanzarotta/bufexplorer'
 Plug 'Shougo/Unite.vim'
+Plug 'Shougo/neomru.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'artur-shaik/vim-javacomplete2'
@@ -42,7 +43,7 @@ set smartindent
 set incsearch
 set ignorecase
 set smartcase
-set mouse=a
+"set mouse=a
 set hidden
 set wildmode=list:longest
 set number
