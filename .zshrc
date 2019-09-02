@@ -19,7 +19,6 @@ init_paths
 init_editor
 
 ## }}}
-
 ## Aliases {{{
 
 init_aliases
@@ -33,7 +32,6 @@ alias -g H="| head"
 alias -g L="| less -r"
 
 ## }}}
-
 ## Zsh Basic Configurations {{{
 
 # Initialize hook functions array.
@@ -151,7 +149,6 @@ autoload -Uz select-word-style
 select-word-style bash
 
 # }}}
-
 ## Zsh VCS Info and RPROMPT {{{
 
 if autoload +X vcs_info 2> /dev/null; then
@@ -169,7 +166,6 @@ if autoload +X vcs_info 2> /dev/null; then
 fi
 
 # }}}
-
 ## Zsh Completion System {{{
 
 # Use zsh completion system.
@@ -208,7 +204,6 @@ if [ -f $HOME/.ssh/known_hosts ]; then
 fi
 
 ## }}}
-
 ## Zsh History {{{
 
 # Don't save history in file
@@ -247,7 +242,6 @@ zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 
 ## }}}
-
 ## Zsh Keybinds {{{
 ## based on http://github.com/kana/config/
 
@@ -275,7 +269,6 @@ bindkey -M vicmd '\C-t' transpose-words
 bindkey -M viins '\C-t' transpose-words
 
 # }}}
-
 ## Zsh Terminal Title Changes {{{
 
 case "${TERM}" in
@@ -309,7 +302,6 @@ setopt no_nomatch
 #init_additionl_configration "*.zsh"
 
 # }}}
-
 ## Post Configurations {{{
 
 if init_rubies; then
@@ -327,8 +319,59 @@ clean_paths
 # autoconf and automake {{{
 export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
 # }}}
+#{{{ gpg-agent
 
-# locale/encoding
+# ubuntu 18 works with only these 3 lines, otherwise you need all the below stuff
+if [ -z "${SSH_AUTH_SOCK}" ];then
+	# ubuntu 18
+	export SSH_AUTH_SOCK=`gpgconf --list-dirs agent-ssh-socket`
+fi
+
+gpg_agent_start()
+{
+	#sleep 0.$RANDOM # hack to avoid race condition that starts many gpg-agent processes
+	eval `${GPG_AGENT_BIN} --daemon --enable-ssh-support --pinentry-program=${GPG_PINENTRY_PROGRAM}`
+}
+
+gpg_agent_pid()
+{
+	test -f ${GPG_AGENT_INFO_FILE} || return 1
+	echo `head -1 ${GPG_AGENT_INFO_FILE} | cut -d : -f2`
+}
+
+case `uname -s` in
+	Darwin)
+		GPG_PINENTRY_PROGRAM=`which pinentry-mac`
+		GPG_AGENT_BIN==`which gpg-agent`
+		GPG_AGENT_INFO_FILE=$HOME/.gpg-agent-info
+		gpg_agent_start
+		SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
+		;;
+
+	FreeBSD|Linux)
+		GPG_PINENTRY_PROGRAM=`which pinentry-gtk-2`
+		GPG_AGENT_BIN=`which gpg-agent`
+		GPG_AGENT_INFO_FILE=$HOME/.gpg-agent-info
+
+		# start gpg agent if we can't get the pid
+		GPG_AGENT_PID=`gpg_agent_pid`
+		if [ -z "${GPG_AGENT_PID}" ];then
+			gpg_agent_start
+		fi
+
+		# try reading gpg info file
+		source ${GPG_AGENT_INFO_FILE}
+
+		# check if gpg is still running from old file, if not start it again
+		GPG_AGENT_PID=`gpg_agent_pid`
+		if ! kill -0 ${GPG_AGENT_PID} 2>/dev/null; then
+			gpg_agent_start
+		fi
+
+		;;
+esac
+#}}}
+# {{{ locale/encoding
 #export LC_ALL=ja_JP.UTF-8
 #export LANG=ja_JP.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -343,6 +386,7 @@ export LC_MONETARY=en_US.UTF-8
 export LC_IDENTIFICATION=en_US.UTF-8
 export LC_TIME=en_US.UTF-8
 export LC_ADDRESS=en_US.UTF-8
+#}}}
 
 export GOPATH=$HOME/Development/go
 
@@ -405,10 +449,11 @@ function vim_tmux() { tmux new -d "vim $*" \; attach; }
 #alias vim='vim_tmux'
 #alias vi='vim_tmux'
 
-# gpg-agent
-if [ -z "${SSH_AUTH_SOCK}" ];then
-	export SSH_AUTH_SOCK=`gpgconf --list-dirs agent-ssh-socket`
-fi
+# export variables to environment
+export GPG_AGENT_INFO
+export SSH_AUTH_SOCK
+export SSH_AGENT_PID
+export GPG_TTY=`tty`
 
 # nvm
 export HOME="`cd $HOME && pwd -P`" # workaround symlink bug in nvm
