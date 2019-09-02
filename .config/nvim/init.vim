@@ -90,7 +90,7 @@ nnoremap [Window]v <C-w>v
 nnoremap [Window]s <C-w>szz
 
 nnoremap [Window]q :<C-u>quit<CR>
-nnoremap [Window]d :<C-u>Bdelete<CR>
+nnoremap [Window]d :<C-u>bdelete<CR>
 
 nnoremap [Window]= <C-w>=
 nnoremap [Window], <C-w><
