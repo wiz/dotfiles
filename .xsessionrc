@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
 xsetroot -bg black -fg white
-
 setxkbmap jp
 setxkbmap -option ctrl:nocaps
 
@@ -31,5 +30,8 @@ ibus-daemon --daemonize --xim &
 # power management
 #xfce4-power-manager &
 
+#export _JAVA_AWT_WM_NONREPARENTING=1
+#wmname LG3D
+
 # start awesome wm
-exec dbus-launch awesome 2>&1 > $HOME/.xsession-errors
+exec ck-launch-session dbus-launch awesome 2>&1 > $HOME/.xsession-errors
