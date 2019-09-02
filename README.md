@@ -25,7 +25,9 @@ sudo apt-get install -y terminator awesome awesome-extra compton feh mutt gnupg2
 
 ### install basic stuff
 ```
-sudo apt-get install -y zsh vim screen curl git mercurial make binutils bison gcc build-essential python python3 python-pip python3-pip
+sudo apt-get install -y zsh vim screen curl git mercurial make binutils bison gcc build-essential
+sudo apt-get install -y python-dev python-pip
+sudo apt-get install -y python3-dev python3-pip
 sudo add-apt-repository ppa:neovim-ppa/stable
 sudo apt-get install -y neovim
 ```
@@ -42,16 +44,6 @@ git clone --recursive https://github.com/wiz/dotfiles ~/.dotfiles
 ln -s ~/.dotfiles/gpg-agent.conf ~/.gnupg/gpg-agent.conf
 ln -s ~/.dotfiles/.gitconfig
 ln -s ~/.dotfiles/.config
-```
-
-### install oh-my-zsh
-```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-```
-
-### install oh-my-zsh theme powerlevel9k
-```
-git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
 ```
 
 ### init zsh
