@@ -1,7 +1,7 @@
 [roxterm profile]
 colour_scheme=Default
-font=Liberation Mono 20
-saturation=0.581152
+font=Source Code Pro Semi-Bold 14
+saturation=0.500000
 hide_menubar=1
 always_show_tabs=0
 scrollbar_pos=0
