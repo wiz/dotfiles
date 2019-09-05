@@ -28,7 +28,7 @@ init_editor() {
 
 init_paths() {
 	# profile bin path
-	export PATH="$PATH:$dotfiles/bin"
+	export PATH="$dotfiles/bin"
 
 	if [ -x /usr/libexec/path_helper ]; then
 		# path_helper needs MANPATH env to assign values.
@@ -37,34 +37,18 @@ init_paths() {
 	fi
 
 	# standard paths
-	for i in '' /usr /usr/local /usr/local/opt /opt/local /usr/local/MacGPG2;do
+	for i in '' /usr/local /opt/local /opt /usr;do
 		local bin_path="$i/bin"
 		if [ -d "$bin_path" ]; then
-			PATH=$bin_path:$PATH
+			PATH=$PATH:$bin_path
 		fi
 		local sbin_path="$i/sbin"
 		if [ -d "$sbin_path" ]; then
-			PATH=$sbin_path:$PATH
-		fi
-		local gcloud_platform_path=$HOME/google-cloud-sdk
-		if [ -d "$gcloud_platform_path" ];then
-			PATH=$gcloud_platform_path/bin/:$PATH
-		fi
-		local android_sdk_platform_path=$HOME/Library/Android/sdk/platform-tools
-		if [ -d "$android_sdk_platform_path" ];then
-			PATH=$android_sdk_platform_path:$PATH
-		fi
-		local android_sdk_tools_path=$HOME/Library/Android/sdk/tools
-		if [ -d "$android_sdk_tools_path" ];then
-			PATH=$android_sdk_tools_path:$PATH
-		fi
-		local android_ndk_platform_path=$HOME/Library/Android/ndk
-		if [ -d "$android_ndk_platform_path" ];then
-			PATH=$android_ndk_platform_path:$PATH
+			PATH=$PATH:$sbin_path
 		fi
 		local man_path="$i/share/man"
 		if [ -d "$man_path" ]; then
-			MANPATH=$man_path:$MANPATH
+			MANPATH=$PATH:$man_path
 		fi
 	done
 

@@ -632,6 +632,9 @@ awful.rules.rules = {
     { rule = { class = "Firefox" },   properties = { floating = false } },
     { rule = { class = "Bisq" },   properties = { tag = tags[1][2] } },
     { rule = { class = "bisq-desktop" },   properties = { tag = tags[1][2] } },
+    { rule = { name = "pinentry" },   properties = { floating = true, placement = awful.placement.centered } },
+    { rule = { name = "pinentry-gtk-2" },   properties = { floating = true, placement = awful.placement.centered } },
+    { rule = { instance = "Dialog" },   properties = { floating = true, placement = awful.placement.centered } },
 }
 -- }}}
 

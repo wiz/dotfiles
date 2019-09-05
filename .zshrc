@@ -321,51 +321,29 @@ export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
 # }}}
 #{{{ gpg-agent
 
-# ubuntu 18 works with only these 3 lines, otherwise you need all the below stuff
-if [ -z "${SSH_AUTH_SOCK}" ];then
-	# ubuntu 18
-	export SSH_AUTH_SOCK=`gpgconf --list-dirs agent-ssh-socket`
-fi
-
-gpg_agent_start()
-{
-	#sleep 0.$RANDOM # hack to avoid race condition that starts many gpg-agent processes
-	eval `${GPG_AGENT_BIN} --daemon --enable-ssh-support --pinentry-program=${GPG_PINENTRY_PROGRAM}`
-}
-
-gpg_agent_pid()
-{
-	test -f ${GPG_AGENT_INFO_FILE} || return 1
-	echo `head -1 ${GPG_AGENT_INFO_FILE} | cut -d : -f2`
-}
-
 case `uname -s` in
 	Darwin)
 		GPG_PINENTRY_PROGRAM=`which pinentry-mac`
 		GPG_AGENT_BIN==`which gpg-agent`
 		GPG_AGENT_INFO_FILE=$HOME/.gpg-agent-info
-		gpg_agent_start
+		eval `${GPG_AGENT_BIN} --daemon --enable-ssh-support --pinentry-program=${GPG_PINENTRY_PROGRAM}`
 		SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
 		;;
 
 	FreeBSD|Linux)
 		GPG_PINENTRY_PROGRAM=`which pinentry-gtk-2`
-		GPG_AGENT_BIN=`which gpg-agent`
-		GPG_AGENT_INFO_FILE=$HOME/.gpg-agent-info
-
-		# start gpg agent if we can't get the pid
-		GPG_AGENT_PID=`gpg_agent_pid`
-		if [ -z "${GPG_AGENT_PID}" ];then
-			gpg_agent_start
-		fi
-
-		# try reading gpg info file
-		source ${GPG_AGENT_INFO_FILE}
-
-		# check if gpg is still running from old file, if not start it again
-		GPG_AGENT_PID=`gpg_agent_pid`
-		if ! kill -0 ${GPG_AGENT_PID} 2>/dev/null; then
-			gpg_agent_start
+		GPG_AGENT_BIN==`which gpg-agent`
+		${GPG_AGENT_BIN} >/dev/null 2>&1
+		if [ $? = 2 ];then # not running, start it and eval output
+			eval `${GPG_AGENT_BIN} --daemon --enable-ssh-support --pinentry-program=${GPG_PINENTRY_PROGRAM} # --scdaemon-program=/usr/bin/gnupg-pkcs11-scd`
+		else # gpg-agent is running, set socket
+			if grep 'Ubuntu 18' /etc/issue.net >/dev/null 2>&1;then
+				export SSH_AUTH_SOCK=`gpgconf --list-dirs agent-ssh-socket`
+			elif grep 'Ubuntu 16' /etc/issue.net >/dev/null 2>&1;then
+				export SSH_AUTH_SOCK=`gpgconf --list-dirs|grep agent-socket|cut -d : -f2`.ssh
+			else
+				export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
+			fi
 		fi
 
 		;;
