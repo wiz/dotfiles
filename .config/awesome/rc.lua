@@ -630,6 +630,8 @@ awful.rules.rules = {
     { rule = { class = "Chromium-browser" },   properties = { floating = false } },
     { rule = { class = "Google-chrome" },   properties = { floating = false } },
     { rule = { class = "Firefox" },   properties = { floating = false } },
+    { rule = { class = "Bisq" },   properties = { tag = tags[1][2] } },
+    { rule = { class = "bisq-desktop" },   properties = { tag = tags[1][2] } },
 }
 -- }}}
 
