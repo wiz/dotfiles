@@ -439,7 +439,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 
 # gvm
-export GVM_DIR="$HOME/.gvm"
-[ -s "$GVM_DIR/scripts/gvm" ] && source "$GVM_DIR/scripts/gvm"
+#export GVM_DIR="$HOME/.gvm"
+#[ -s "$GVM_DIR/scripts/gvm" ] && source "$GVM_DIR/scripts/gvm"
 
 # vim:ts=4:sw=4:noexpandtab:foldmethod=marker:nowrap:
