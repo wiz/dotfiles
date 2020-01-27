@@ -13,7 +13,7 @@ xfsettingsd &
 vmware-user-suid-wrapper
 
 # transparency
-compton &
+#compton &
 
 # network manager widget
 nm-applet &
