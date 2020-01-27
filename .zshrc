@@ -337,7 +337,9 @@ case `uname -s` in
 		if [ $? = 2 ];then # not running, start it and eval output
 			eval `${GPG_AGENT_BIN} --daemon --enable-ssh-support --pinentry-program=${GPG_PINENTRY_PROGRAM} # --scdaemon-program=/usr/bin/gnupg-pkcs11-scd`
 		else # gpg-agent is running, set socket
-			if grep 'Ubuntu 18' /etc/issue.net >/dev/null 2>&1;then
+			if [ `uname` = FreeBSD ];then
+				export SSH_AUTH_SOCK=`gpgconf --list-dirs agent-ssh-socket`
+			elif grep 'Ubuntu 18' /etc/issue.net >/dev/null 2>&1;then
 				export SSH_AUTH_SOCK=`gpgconf --list-dirs agent-ssh-socket`
 			elif grep 'Ubuntu 16' /etc/issue.net >/dev/null 2>&1;then
 				export SSH_AUTH_SOCK=`gpgconf --list-dirs|grep agent-socket|cut -d : -f2`.ssh
