@@ -21,7 +21,7 @@ Plug 'artur-shaik/vim-javacomplete2'
 Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug 'scrooloose/nerdtree'
 Plug 'roxma/nvim-yarp'
-Plug 'majutsushi/tagbar'
+"Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-commentary'
 Plug 'Townk/vim-autoclose'
 Plug 'tpope/vim-fugitive'
