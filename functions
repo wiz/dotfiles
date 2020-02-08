@@ -279,8 +279,8 @@ init_aliases() {
 
 	# if we have vim, vi is vim also shotcut v is vim.
 	if type 'vim' > /dev/null 2>&1; then
-		alias vi='vim'
-		alias v='vim'
+		alias vi='nvim'
+		alias v='nvim'
 	fi
 }
 
